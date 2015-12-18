@@ -1,0 +1,14 @@
+name = "Murshun Easy Way Out";
+picture = "murshun_easywayout.paa";
+actionName = "Website";
+action = "http://podkolpakom.net/";
+description = "Murshun Easy Way Out";
+logo = "murshun_easywayout.paa";
+logoOver = "murshun_easywayout.paa";
+tooltip = "Murshun Easy Way Out";
+tooltipOwned = "";
+overview = "When things go really bad.";
+author = "Rebel";
+overviewPicture = "murshun_easywayout.paa";
+overviewText = "Murshun Easy Way Out";
+overviewFootnote = "";
