@@ -6,7 +6,7 @@ class CfgPatches
         weapons[] = {};
 		requiredVersion = 1;
 		requiredAddons[] = {"A3_Anims_F"};
-		version = "1.0";
+		version = "1.1";
 	};
 };
 
