@@ -3,7 +3,7 @@ class CfgPatches
 	class murshun_easywayout
 	{
 		units[] = {};
-        weapons[] = {};
+		weapons[] = {};
 		requiredVersion = 1;
 		requiredAddons[] = {"A3_Anims_F"};
 		version = "1.1";
