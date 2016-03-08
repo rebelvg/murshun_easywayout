@@ -1,6 +1,6 @@
 name = "Murshun Easy Way Out";
 picture = "murshun_easywayout.paa";
 actionName = "Website";
-action = "http://podkolpakom.net/";
+action = "https://github.com/rebelvg";
 overview = "When things go really bad.";
 author = "Rebel";
