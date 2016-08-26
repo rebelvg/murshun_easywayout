@@ -1,6 +1,6 @@
-murshun_animationsArray = ["murshun_ActsPercMstpSnonWpstDnon_suicide1B", "murshun_ActsPercMstpSnonWpstDnon_suicide2B"];
+murshun_easywayout_animationsArray = ["murshun_ActsPercMstpSnonWpstDnon_suicide1B", "murshun_ActsPercMstpSnonWpstDnon_suicide2B"];
 
-murshun_suicideInProgress = false;
+murshun_easywayout_suicideInProgress = false;
 
 if (isNil "murshun_easywayout_canSuicide") then {
 	if (isMultiplayer) then {
@@ -10,7 +10,7 @@ if (isNil "murshun_easywayout_canSuicide") then {
 	};
 };
 
-murshun_setAceDamage_fnc = {
+murshun_easywayout_fnc_setAceDamage = {
 	_unit = _this select 0;
 
 	_prevBodyPartsDamageBasic = _unit getVariable ["ace_medical_bodyPartStatus", []];
@@ -27,11 +27,11 @@ murshun_setAceDamage_fnc = {
 	_unit setVariable ["ace_medical_pain", 1, true];
 };
 
-murshun_suicide_fnc = {
+murshun_easywayout_fnc_suicide = {
 	_unit = _this select 0;
 
 	if ((local _unit) && !(isPlayer _unit)) exitWith {
-		[_unit] spawn murshun_suicide_AI_fnc;
+		[_unit] spawn murshun_easywayout_fnc_suicide_AI;
 	};
 
 	_handgun = handgunWeapon _unit;
@@ -39,10 +39,10 @@ murshun_suicide_fnc = {
 		["You'll need a handgun to do that, silly.", 2.5, _unit] spawn ace_common_fnc_displayTextStructured;
 	};
 
-	_animation = murshun_animationsArray call BIS_fnc_selectRandom;
+	_animation = murshun_easywayout_animationsArray call BIS_fnc_selectRandom;
 
 	[[_unit, _animation], "switchMove"] call BIS_fnc_MP;
-	murshun_suicideInProgress = true;
+	murshun_easywayout_suicideInProgress = true;
 
 	_unit selectWeapon handgunWeapon _unit;
 
@@ -71,7 +71,7 @@ murshun_suicide_fnc = {
 
 			if (_weapon == handgunWeapon _unit) then {
 				_unit setHitPointDamage ["hitHead", 1];
-				[_unit] spawn murshun_setAceDamage_fnc;
+				[_unit] spawn murshun_easywayout_fnc_setAceDamage;
 
 				cutText ["", "BLACK FADED"];
 			};
@@ -96,7 +96,7 @@ murshun_suicide_fnc = {
 
 			if (_weapon == handgunWeapon _unit) then {
 				_unit setHitPointDamage ["hitHead", 1];
-				[_unit] spawn murshun_setAceDamage_fnc;
+				[_unit] spawn murshun_easywayout_fnc_setAceDamage;
 
 				cutText ["", "BLACK FADED"];
 			};
@@ -110,20 +110,20 @@ murshun_suicide_fnc = {
 
 	["handgunCheckEh", "onEachFrame"] call BIS_fnc_removeStackedEventHandler;
 
-	murshun_suicideInProgress = false;
+	murshun_easywayout_suicideInProgress = false;
 
 	if (alive _unit && !(_unit getVariable ["ACE_isUnconscious", false])) then {
 		[[_unit, "AmovPercMstpSlowWpstDnon"], "switchMove"] call BIS_fnc_MP;
 	};
 };
 
-murshun_suicide_AI_fnc = {
+murshun_easywayout_fnc_suicide_AI = {
 	_unit = _this select 0;
 
 	_handgun = handgunWeapon _unit;
 	if (_handgun == "") exitWith {};
 
-	_animation = murshun_animationsArray call BIS_fnc_selectRandom;
+	_animation = murshun_easywayout_animationsArray call BIS_fnc_selectRandom;
 
 	[[_unit, _animation], "switchMove"] call BIS_fnc_MP;
 
@@ -134,7 +134,7 @@ murshun_suicide_AI_fnc = {
 
 		sleep 0.5;
 		_unit forceWeaponFire [handgunWeapon _unit, "Single"];
-		[_unit] spawn murshun_setAceDamage_fnc;
+		[_unit] spawn murshun_easywayout_fnc_setAceDamage;
 	};
 
 	if (_animation == "murshun_ActsPercMstpSnonWpstDnon_suicide2B") then {
@@ -142,9 +142,9 @@ murshun_suicide_AI_fnc = {
 
 		sleep 0.5;
 		_unit forceWeaponFire [handgunWeapon _unit, "Single"];
-		[_unit] spawn murshun_setAceDamage_fnc;
+		[_unit] spawn murshun_easywayout_fnc_setAceDamage;
 	};
 };
 
-_action = ["murshun_suicide", "Commit Suicide", "murshun_easywayout\easywayout.paa", {[player] spawn murshun_suicide_fnc}, {player == vehicle player && murshun_easywayout_canSuicide && !murshun_suicideInProgress && ((player getVariable ["ace_sitting_isSitting", false]) isEqualTo false)}] call ace_interact_menu_fnc_createAction;
+_action = ["murshun_suicide", "Commit Suicide", "murshun_easywayout\easywayout.paa", {[player] spawn murshun_easywayout_fnc_suicide}, {player == vehicle player && murshun_easywayout_canSuicide && !murshun_easywayout_suicideInProgress && ((player getVariable ["ace_sitting_isSitting", false]) isEqualTo false)}] call ace_interact_menu_fnc_createAction;
 [player, 1, ["ACE_SelfActions", "ACE_Equipment"], _action] call ace_interact_menu_fnc_addActionToObject;
