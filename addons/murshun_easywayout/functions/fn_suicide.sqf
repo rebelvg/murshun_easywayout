@@ -146,5 +146,5 @@ murshun_suicide_AI_fnc = {
 	};
 };
 
-_action = ["murshun_suicide", "Commit Suicide", "murshun_easywayout\easywayout.paa", {[player] spawn murshun_suicide_fnc}, {player == vehicle player && murshun_easywayout_canSuicide && !murshun_suicideInProgress && alive player && ((player getVariable ["ace_sitting_isSitting", false]) isEqualTo false)}] call ace_interact_menu_fnc_createAction;
+_action = ["murshun_suicide", "Commit Suicide", "murshun_easywayout\easywayout.paa", {[player] spawn murshun_suicide_fnc}, {player == vehicle player && murshun_easywayout_canSuicide && !murshun_suicideInProgress && ((player getVariable ["ace_sitting_isSitting", false]) isEqualTo false)}] call ace_interact_menu_fnc_createAction;
 [player, 1, ["ACE_SelfActions", "ACE_Equipment"], _action] call ace_interact_menu_fnc_addActionToObject;
