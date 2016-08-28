@@ -1,5 +1,5 @@
 name = "Murshun Easy Way Out";
-picture = "murshun_easywayout.paa";
+picture = "mod.paa";
 actionName = "Website";
 action = "https://github.com/rebelvg";
 overview = "When things go really bad.";
