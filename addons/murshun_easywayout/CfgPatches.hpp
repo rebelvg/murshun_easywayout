@@ -861,7 +861,8 @@ class CfgPatches
 			"curatoronly_structures_f_wrecks",
 			"a3data",
 			"3den",
-			"map_vr"
+			"map_vr",
+			"ace_interact_menu"
 		};
 	};
 };

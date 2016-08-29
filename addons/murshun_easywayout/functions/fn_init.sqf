@@ -1,15 +1,3 @@
-murshun_easywayout_animationsArray = ["murshun_ActsPercMstpSnonWpstDnon_suicide1B", "murshun_ActsPercMstpSnonWpstDnon_suicide2B"];
-
-murshun_easywayout_suicideInProgress = false;
-
-if (isNil "murshun_easywayout_canSuicide") then {
-	if (isMultiplayer) then {
-		murshun_easywayout_canSuicide = false;
-	} else {
-		murshun_easywayout_canSuicide = true;
-	};
-};
-
 murshun_easywayout_fnc_suicide = {
 	_unit = _this select 0;
 	
@@ -107,6 +95,18 @@ murshun_easywayout_fnc_suicide_AI = {
 	
 	_unit forceWeaponFire [handgunWeapon _unit, "Single"];
 	_unit setHitPointDamage ["hitHead", 1];
+};
+
+murshun_easywayout_animationsArray = ["murshun_ActsPercMstpSnonWpstDnon_suicide1B", "murshun_ActsPercMstpSnonWpstDnon_suicide2B"];
+
+murshun_easywayout_suicideInProgress = false;
+
+if (isNil "murshun_easywayout_canSuicide") then {
+	if (isMultiplayer) then {
+		murshun_easywayout_canSuicide = false;
+	} else {
+		murshun_easywayout_canSuicide = true;
+	};
 };
 
 _action = ["murshun_suicide", "Commit Suicide", "murshun_easywayout\easywayout.paa", {[player] spawn murshun_easywayout_fnc_suicide}, {player == vehicle player && murshun_easywayout_canSuicide && !murshun_easywayout_suicideInProgress && stance player == "STAND" && currentWeapon player == handgunWeapon player && handgunWeapon player != ""}] call ace_interact_menu_fnc_createAction;
