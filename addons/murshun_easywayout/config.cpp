@@ -51,7 +51,7 @@ class CfgFunctions
 		class murshun_easywayout
 		{
 			file = "murshun_easywayout\functions";
-			class suicide
+			class init
 			{
 				postInit = 1;
 			};
