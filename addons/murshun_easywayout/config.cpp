@@ -7,9 +7,6 @@ class CfgMovesMaleSdr: CfgMovesBasic
 	gestures = "CfgGesturesMale";
 	class States
 	{
-		class AmovPercMstpSlowWrflDnon;
-		class AmovPercMstpSnonWnonDnon;
-		class CutSceneAnimationBase;
 		class AadjPercMstpSrasWpstDDown_AmovPercMstpSrasWpstDnon;
 		class murshun_ActsPercMstpSnonWpstDnon_suicide1A: AadjPercMstpSrasWpstDDown_AmovPercMstpSrasWpstDnon
 		{
