@@ -7,13 +7,13 @@ murshun_easywayout_fnc_suicide = {
 	
 	if (handgunWeapon _unit == "") exitWith {};
 	
-	if (murshun_easywayout_suicideInProgress) exitWith {};
+	if (murshun_easywayout_inProgress) exitWith {};
 
 	_animation = murshun_easywayout_animationsArray call BIS_fnc_selectRandom;
 
 	[[_unit, _animation], "switchMove"] call BIS_fnc_MP;
 	
-	murshun_easywayout_suicideInProgress = true;
+	murshun_easywayout_inProgress = true;
 
 	_unit selectWeapon handgunWeapon _unit;
 
@@ -69,7 +69,7 @@ murshun_easywayout_fnc_suicide = {
 		[[_unit, "AmovPercMstpSlowWpstDnon"], "switchMove"] call BIS_fnc_MP;
 	};
 	
-	murshun_easywayout_suicideInProgress = false;
+	murshun_easywayout_inProgress = false;
 };
 
 murshun_easywayout_fnc_suicide_AI = {
@@ -99,15 +99,15 @@ murshun_easywayout_fnc_suicide_AI = {
 
 murshun_easywayout_animationsArray = ["murshun_ActsPercMstpSnonWpstDnon_suicide1B", "murshun_ActsPercMstpSnonWpstDnon_suicide2B"];
 
-murshun_easywayout_suicideInProgress = false;
+murshun_easywayout_inProgress = false;
 
-if (isNil "murshun_easywayout_canSuicide") then {
+if (isNil "murshun_easywayout_enable") then {
 	if (isMultiplayer) then {
-		murshun_easywayout_canSuicide = false;
+		murshun_easywayout_enable = false;
 	} else {
-		murshun_easywayout_canSuicide = true;
+		murshun_easywayout_enable = true;
 	};
 };
 
-_action = ["murshun_suicide", "Commit Suicide", "murshun_easywayout\easywayout.paa", {[player] spawn murshun_easywayout_fnc_suicide}, {player == vehicle player && murshun_easywayout_canSuicide && !murshun_easywayout_suicideInProgress && stance player == "STAND" && currentWeapon player == handgunWeapon player && handgunWeapon player != ""}] call ace_interact_menu_fnc_createAction;
+_action = ["murshun_suicide", "Commit Suicide", "murshun_easywayout\easywayout.paa", {[player] spawn murshun_easywayout_fnc_suicide}, {player == vehicle player && murshun_easywayout_enable && !murshun_easywayout_inProgress && stance player == "STAND" && currentWeapon player == handgunWeapon player && handgunWeapon player != ""}] call ace_interact_menu_fnc_createAction;
 [player, 1, ["ACE_SelfActions", "ACE_Equipment"], _action] call ace_interact_menu_fnc_addActionToObject;
