@@ -37,7 +37,7 @@ class CfgMovesMaleSdr: CfgMovesBasic
 			speed = 0.124481;
 			showHandGun = 1;
 			head = "headNo";
-		};		
+		};
 	};
 };
 
