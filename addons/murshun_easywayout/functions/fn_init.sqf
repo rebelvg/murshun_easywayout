@@ -1,31 +1,34 @@
 murshun_easywayout_fnc_suicide = {
-	_unit = _this select 0;
-	
-	if (_unit != player) exitWith {};
-	
+	params ["_unit"];
+
+	if (!(local _unit)) exitWith {};
+
+    if (!(isPlayer _unit)) exitWith {};
+
 	if (stance _unit != "STAND") exitWith {};
-	
+
 	if (handgunWeapon _unit == "") exitWith {};
-	
+
 	if (murshun_easywayout_inProgress) exitWith {};
+
+    murshun_easywayout_inProgress = true;
 
 	_animation = murshun_easywayout_animationsArray call BIS_fnc_selectRandom;
 
 	[[_unit, _animation], "switchMove"] call BIS_fnc_MP;
-	
-	murshun_easywayout_inProgress = true;
 
 	_unit selectWeapon handgunWeapon _unit;
 
 	["murshun_easywayout_handgunCheckEh", "onEachFrame", {
-		_unit = _this select 0;
+		params ["_unit"];
+
 		if (currentWeapon _unit != handgunWeapon _unit) then {
 			_unit selectWeapon handgunWeapon _unit;
 		};
 	}, [_unit]] call BIS_fnc_addStackedEventHandler;
-	
+
 	_magsArray = magazinesAmmo _unit;
-	
+
 	{
 		_unit removeMagazine (_x select 0);
 	} foreach _magsArray;
@@ -37,14 +40,13 @@ murshun_easywayout_fnc_suicide = {
 	if (_animation == "murshun_ActsPercMstpSnonWpstDnon_suicide2B") then {
 		sleep 4.1;
 	};
-	
+
 	{
 		_unit addMagazine _x;
 	} foreach _magsArray;
 
 	_ehFiredIndex = player addEventHandler ["Fired", {
-		_unit = _this select 0;
-		_weapon = _this select 1;
+		params ["_unit", "_weapon"];
 
 		if (_weapon == handgunWeapon _unit) then {
 			_unit setHitPointDamage ["hitHead", 1];
@@ -52,11 +54,11 @@ murshun_easywayout_fnc_suicide = {
 			cutText ["", "BLACK FADED"];
 		};
 	}];
-	
+
 	if (_animation == "murshun_ActsPercMstpSnonWpstDnon_suicide1B") then {
 		sleep 1;
 	};
-	
+
 	if (_animation == "murshun_ActsPercMstpSnonWpstDnon_suicide2B") then {
 		sleep 1.4;
 	};
@@ -68,14 +70,16 @@ murshun_easywayout_fnc_suicide = {
 	if (alive _unit && !(_unit getVariable ["ACE_isUnconscious", false])) then {
 		[[_unit, "AmovPercMstpSlowWpstDnon"], "switchMove"] call BIS_fnc_MP;
 	};
-	
+
 	murshun_easywayout_inProgress = false;
 };
 
 murshun_easywayout_fnc_suicide_AI = {
 	_unit = _this select 0;
-	
+
 	if (!(local _unit)) exitWith {};
+
+    if (isPlayer _unit) exitWith {};
 
 	if (handgunWeapon _unit == "") exitWith {};
 
@@ -92,7 +96,7 @@ murshun_easywayout_fnc_suicide_AI = {
 	if (_animation == "murshun_ActsPercMstpSnonWpstDnon_suicide2B") then {
 		sleep 4.6;
 	};
-	
+
 	_unit forceWeaponFire [handgunWeapon _unit, "Single"];
 	_unit setHitPointDamage ["hitHead", 1];
 };
