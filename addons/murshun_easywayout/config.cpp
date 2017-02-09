@@ -45,7 +45,7 @@ class CfgFunctions
 {
 	class murshun_easywayout
 	{
-		class murshun_easywayout
+		class functions
 		{
 			file = "murshun_easywayout\functions";
 			class init
