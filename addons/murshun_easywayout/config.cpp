@@ -3,8 +3,6 @@
 class CfgMovesBasic;
 class CfgMovesMaleSdr: CfgMovesBasic
 {
-	skeletonName = "OFP2_ManSkeleton";
-	gestures = "CfgGesturesMale";
 	class States
 	{
 		class AadjPercMstpSrasWpstDDown_AmovPercMstpSrasWpstDnon;
