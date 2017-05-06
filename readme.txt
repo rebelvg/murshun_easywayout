@@ -25,4 +25,4 @@ Variables.
 murshun_easywayout_enable - bool, enables easywayout.
 
 Functions.
-[_unit] murshun_easywayout_fnc_suicide_AI; - performs action on AI unit.
+[_unit] spawn murshun_easywayout_fnc_suicide_AI; - performs action on AI unit.

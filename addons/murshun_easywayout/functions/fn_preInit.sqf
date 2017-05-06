@@ -1,17 +1,24 @@
+murshun_easywayout_fnc_canSuicide = {
+    params ["_unit"];
+
+    murshun_easywayout_enable &&
+    _unit == vehicle _unit &&
+    !(_unit getVariable ["murshun_easywayout_inProgress", false]) &&
+    stance _unit == "STAND" &&
+    currentWeapon _unit == handgunWeapon _unit &&
+    handgunWeapon _unit != ""
+};
+
 murshun_easywayout_fnc_suicide = {
     params ["_unit"];
 
     if (!(local _unit)) exitWith {};
-
     if (!(isPlayer _unit)) exitWith {};
-
     if (stance _unit != "STAND") exitWith {};
-
     if (handgunWeapon _unit == "") exitWith {};
 
-    if (murshun_easywayout_inProgress) exitWith {};
-
-    murshun_easywayout_inProgress = true;
+    if (_unit getVariable ["murshun_easywayout_inProgress", false]) exitWith {};
+    _unit setVariable ["murshun_easywayout_inProgress", true];
 
     _animation = murshun_easywayout_animationsArray call BIS_fnc_selectRandom;
 
@@ -19,19 +26,20 @@ murshun_easywayout_fnc_suicide = {
 
     _unit selectWeapon handgunWeapon _unit;
 
-    ["murshun_easywayout_handgunCheckEh", "onEachFrame", {
-        params ["_unit"];
+    _pfhId = [{
+        params ["_args", "_handle"];
+        _args params ["_unit"];
 
         if (currentWeapon _unit != handgunWeapon _unit) then {
             _unit selectWeapon handgunWeapon _unit;
         };
-    }, [_unit]] call BIS_fnc_addStackedEventHandler;
+    }, 0, [_unit]] call CBA_fnc_addPerFrameHandler;
 
     _magsArray = magazinesAmmo _unit;
 
     {
         _unit removeMagazine (_x select 0);
-    } foreach _magsArray;
+    } forEach _magsArray;
 
     if (_animation == "murshun_ActsPercMstpSnonWpstDnon_suicide1B") then {
         sleep 3.9;
@@ -43,7 +51,7 @@ murshun_easywayout_fnc_suicide = {
 
     {
         _unit addMagazine _x;
-    } foreach _magsArray;
+    } forEach _magsArray;
 
     _ehFiredIndex = player addEventHandler ["Fired", {
         params ["_unit", "_weapon"];
@@ -65,23 +73,24 @@ murshun_easywayout_fnc_suicide = {
 
     player removeEventHandler ["Fired", _ehFiredIndex];
 
-    ["murshun_easywayout_handgunCheckEh", "onEachFrame"] call BIS_fnc_removeStackedEventHandler;
+    [_pfhId] call CBA_fnc_removePerFrameHandler;
 
     if (alive _unit && !(_unit getVariable ["ACE_isUnconscious", false])) then {
         [[_unit, "AmovPercMstpSlowWpstDnon"], "switchMove"] call BIS_fnc_MP;
     };
 
-    murshun_easywayout_inProgress = false;
+    _unit setVariable ["murshun_easywayout_inProgress", false];
 };
 
 murshun_easywayout_fnc_suicide_AI = {
-    _unit = _this select 0;
+    params ["_unit"];
 
     if (!(local _unit)) exitWith {};
-
     if (isPlayer _unit) exitWith {};
-
     if (handgunWeapon _unit == "") exitWith {};
+
+    if (_unit getVariable ["murshun_easywayout_inProgress", false]) exitWith {};
+    _unit setVariable ["murshun_easywayout_inProgress", true];
 
     _animation = murshun_easywayout_animationsArray call BIS_fnc_selectRandom;
 
@@ -103,8 +112,6 @@ murshun_easywayout_fnc_suicide_AI = {
 
 murshun_easywayout_animationsArray = ["murshun_ActsPercMstpSnonWpstDnon_suicide1B", "murshun_ActsPercMstpSnonWpstDnon_suicide2B"];
 
-murshun_easywayout_inProgress = false;
-
 if (isNil "murshun_easywayout_enable") then {
     if (isMultiplayer) then {
         murshun_easywayout_enable = false;
@@ -112,6 +119,3 @@ if (isNil "murshun_easywayout_enable") then {
         murshun_easywayout_enable = true;
     };
 };
-
-_action = ["murshun_suicide", "Commit Suicide", "murshun_easywayout\easywayout.paa", {[player] spawn murshun_easywayout_fnc_suicide}, {player == vehicle player && murshun_easywayout_enable && !murshun_easywayout_inProgress && stance player == "STAND" && currentWeapon player == handgunWeapon player && handgunWeapon player != ""}] call ace_interact_menu_fnc_createAction;
-[player, 1, ["ACE_SelfActions", "ACE_Equipment"], _action] call ace_interact_menu_fnc_addActionToObject;
