@@ -20,13 +20,13 @@ murshun_easywayout_fnc_suicide = {
     if (_unit getVariable ["murshun_easywayout_inProgress", false]) exitWith {};
     _unit setVariable ["murshun_easywayout_inProgress", true];
 
-    _animation = murshun_easywayout_animationsArray call BIS_fnc_selectRandom;
+    private _animation = murshun_easywayout_animationsArray call BIS_fnc_selectRandom;
 
     [[_unit, _animation], "switchMove"] call BIS_fnc_MP;
 
     _unit selectWeapon handgunWeapon _unit;
 
-    _pfhId = [{
+    private _pfhId = [{
         params ["_args", "_handle"];
         _args params ["_unit"];
 
@@ -35,7 +35,7 @@ murshun_easywayout_fnc_suicide = {
         };
     }, 0, [_unit]] call CBA_fnc_addPerFrameHandler;
 
-    _magsArray = magazinesAmmo _unit;
+    private _magsArray = magazinesAmmo _unit;
 
     {
         _unit removeMagazine (_x select 0);
@@ -53,7 +53,7 @@ murshun_easywayout_fnc_suicide = {
         _unit addMagazine _x;
     } forEach _magsArray;
 
-    _ehFiredIndex = player addEventHandler ["Fired", {
+    private _ehFiredIndex = player addEventHandler ["Fired", {
         params ["_unit", "_weapon"];
 
         if (_weapon == handgunWeapon _unit) then {
@@ -92,7 +92,7 @@ murshun_easywayout_fnc_suicide_AI = {
     if (_unit getVariable ["murshun_easywayout_inProgress", false]) exitWith {};
     _unit setVariable ["murshun_easywayout_inProgress", true];
 
-    _animation = murshun_easywayout_animationsArray call BIS_fnc_selectRandom;
+    private _animation = murshun_easywayout_animationsArray call BIS_fnc_selectRandom;
 
     [[_unit, _animation], "switchMove"] call BIS_fnc_MP;
 
